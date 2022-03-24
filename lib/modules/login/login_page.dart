@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../application/ui/widgets/build_menu_bar.dart';
+import '../../application/ui/widgets/build_sign_in.dart';
 import 'login_controller.dart';
 
 class LoginPage extends GetView<LoginController> {
@@ -45,6 +46,16 @@ class LoginPage extends GetView<LoginController> {
                       onSignInPress: controller.onSignInPress,
                       onSignUpPress: controller.onSignUpPress,
                     ),
+                  ),
+                ),
+                Expanded(
+                  child: PageView(
+                    controller: controller.pageController,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      BuildSignIn(signInWithEmail: controller.signInWithEmail, signInWithGoogle: controller.signInWithGoogle),
+                      Container(),
+                    ],
                   ),
                 ),
               ],

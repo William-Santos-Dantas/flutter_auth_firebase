@@ -35,4 +35,11 @@ class LoginController extends GetxController with LoaderMixin, MessagesMixin {
     pageController.animateToPage(1,
         duration: const Duration(milliseconds: 500), curve: Curves.decelerate);
   }
+
+  void signInWithEmail() {
+    print('sign In With Email');
+  }
+  void signInWithGoogle() {
+    print('sign In With Google');
+  }
 }
