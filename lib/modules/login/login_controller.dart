@@ -3,8 +3,10 @@ import 'package:get/get.dart';
 
 import '../../application/ui/loader/loader_mixin.dart';
 import '../../application/ui/messages/messages_mixin.dart';
+import '../../services/login/login_service.dart';
 
 class LoginController extends GetxController with LoaderMixin, MessagesMixin {
+  final LoginService _loginService;
   final loading = false.obs;
   final message = Rxn<MessageModel>();
 
@@ -13,7 +15,8 @@ class LoginController extends GetxController with LoaderMixin, MessagesMixin {
   get existing => _existing.value;
   set existing(value) => _existing.value = value;
 
-  LoginController();
+  LoginController({required LoginService loginService})
+      : _loginService = loginService;
 
   @override
   void onInit() {
@@ -37,9 +40,21 @@ class LoginController extends GetxController with LoaderMixin, MessagesMixin {
   }
 
   void signInWithEmail() {
-    print('sign In With Email');
+    Get.offAllNamed('/home');
   }
-  void signInWithGoogle() {
-    print('sign In With Google');
+
+  void signInWithGoogle() async {
+    try {
+      loading(true);
+      await _loginService.loginWithGoogle();
+      loading(false);
+      message(MessageModel.info(
+          title: 'Sucesso', message: 'Login Realizado com Sucesso'));
+      Get.offAllNamed('/home');
+    } catch (e) {
+      loading(false);
+      message(MessageModel.error(
+          title: 'Login Error', message: 'Erro ao Realizar Login'));
+    }
   }
 }

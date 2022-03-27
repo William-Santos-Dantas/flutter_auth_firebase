@@ -71,7 +71,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   onTap: () {
                     setState(
                       () {
-                        print(obscureText);
                         obscureText = !obscureText;
                       },
                     );
