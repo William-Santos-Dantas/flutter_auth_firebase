@@ -6,53 +6,69 @@ import 'custom_text_field.dart';
 import 'submit_button.dart';
 
 class BuildSignIn extends StatelessWidget {
-
-  final VoidCallback signInWithEmail;
+  final Function signInWithEmail;
   final VoidCallback signInWithGoogle;
-  const BuildSignIn({Key? key, required this.signInWithEmail, required this.signInWithGoogle}) : super(key: key);
+  const BuildSignIn(
+      {Key? key, required this.signInWithEmail, required this.signInWithGoogle})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+    final _formKey = GlobalKey<FormState>();
     return Container(
       padding: const EdgeInsets.only(top: 23.0),
       child: Column(
         children: <Widget>[
-          Stack(
-            alignment: Alignment.topCenter,
-            children: <Widget>[
-              Card(
-                elevation: 2.0,
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: SizedBox(
-                  width: context.widthTransformer(reducedBy: 10),
-                  child: Column(
-                    children: <Widget>[
-                      const CustomTextField(
-                        inputType: TextInputType.emailAddress,
-                        hintText: "Email Address",
-                        icon: Icons.email,
-                      ),
-                      Divider(
-                        height: 1.0,
-                        color: Colors.grey[400],
-                      ),
-                      const CustomTextField(
-                        inputType: TextInputType.emailAddress,
-                        hintText: "Password",
-                        icon: Icons.email,
-                        password: true,
-                      ),
-                    ],
+          Form(
+            key: _formKey,
+            child: Stack(
+              alignment: Alignment.topCenter,
+              children: <Widget>[
+                Card(
+                  elevation: 2.0,
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: SizedBox(
+                    width: context.widthTransformer(reducedBy: 10),
+                    child: Column(
+                      children: <Widget>[
+                        CustomTextField(
+                          inputType: TextInputType.emailAddress,
+                          hintText: "Email Address",
+                          icon: Icons.email,
+                          controller: emailController,
+                        ),
+                        Divider(
+                          height: 1.0,
+                          color: Colors.grey[400],
+                        ),
+                        CustomTextField(
+                          inputType: TextInputType.emailAddress,
+                          hintText: "Password",
+                          icon: Icons.email,
+                          password: true,
+                          controller: passwordController,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           SubmitButton(
-            onPress: signInWithEmail,
+            onPress: () {
+              if (_formKey.currentState!.validate()) {
+                signInWithEmail(
+                  email: emailController.text,
+                  password: passwordController.text,
+                );
+              }
+            },
             text: 'LOGIN',
           ),
           Padding(

@@ -5,6 +5,7 @@ class CustomTextField extends StatefulWidget {
   final String hintText;
   final IconData icon;
   final bool password;
+  final TextEditingController controller;
 
   const CustomTextField({
     Key? key,
@@ -12,6 +13,7 @@ class CustomTextField extends StatefulWidget {
     required this.hintText,
     required this.icon,
     this.password = false,
+    required this.controller,
   }) : super(key: key);
 
   @override
@@ -21,6 +23,7 @@ class CustomTextField extends StatefulWidget {
         icon: icon,
         inputType: inputType,
         password: password,
+        controller: controller,
       );
 }
 
@@ -29,12 +32,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
   final String hintText;
   final IconData icon;
   final bool password;
+  final TextEditingController controller;
 
   _CustomTextFieldState({
     required this.inputType,
     required this.hintText,
     required this.icon,
     required this.password,
+    required this.controller,
   }) : obscureText = password;
 
   bool obscureText;
@@ -49,6 +54,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         right: 25.0,
       ),
       child: TextField(
+        controller: controller,
         keyboardType: inputType,
         obscureText: obscureText,
         style: const TextStyle(

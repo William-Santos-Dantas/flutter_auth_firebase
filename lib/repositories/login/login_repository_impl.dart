@@ -4,12 +4,13 @@ import 'package:google_sign_in/google_sign_in.dart';
 import './login_repository.dart';
 
 class LoginRepositoryImpl implements LoginRepository {
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   @override
-  Future<UserCredential> loginWithGoogle() async{
+  Future<UserCredential> loginWithGoogle() async {
     final googleUser = await GoogleSignIn().signIn();
     final googleAuth = await googleUser?.authentication;
 
-    if(googleAuth != null){
+    if (googleAuth != null) {
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
@@ -21,15 +22,20 @@ class LoginRepositoryImpl implements LoginRepository {
     throw Exception('Erro ao realizar login com o google');
   }
 
-  Future<UserCredential> loginWithEmail({required String email, required String password}){
-    
+  @override
+  Future<UserCredential> loginWithEmail(
+      {required String email, required String password}) async {
+    try {
+      return await _firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
+    } catch (e) {
+      throw Exception('Erro ao realizar login');
+    }
   }
 
   @override
-  Future<void> logout() async{
+  Future<void> logout() async {
     await FirebaseAuth.instance.signOut();
     await GoogleSignIn().signOut();
   }
-
-
 }

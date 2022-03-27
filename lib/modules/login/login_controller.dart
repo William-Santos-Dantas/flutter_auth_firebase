@@ -39,8 +39,19 @@ class LoginController extends GetxController with LoaderMixin, MessagesMixin {
         duration: const Duration(milliseconds: 500), curve: Curves.decelerate);
   }
 
-  void signInWithEmail() {
-    Get.offAllNamed('/home');
+  void signInWithEmail(
+      {required String email, required String password}) async {
+    try {
+      loading(true);
+      await _loginService.loginWithEmail(email: email, password: password);
+      loading(false);
+      message(MessageModel.info(
+          title: 'Sucesso', message: 'Login Realizado com Sucesso'));
+    } catch (e) {
+      loading(false);
+      message(MessageModel.error(
+          title: 'Login Error', message: 'Erro ao Realizar Login'));
+    }
   }
 
   void signInWithGoogle() async {
@@ -50,7 +61,6 @@ class LoginController extends GetxController with LoaderMixin, MessagesMixin {
       loading(false);
       message(MessageModel.info(
           title: 'Sucesso', message: 'Login Realizado com Sucesso'));
-      Get.offAllNamed('/home');
     } catch (e) {
       loading(false);
       message(MessageModel.error(
