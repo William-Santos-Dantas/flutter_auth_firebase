@@ -67,4 +67,15 @@ class LoginController extends GetxController with LoaderMixin, MessagesMixin {
           title: 'Login Error', message: 'Erro ao Realizar Login'));
     }
   }
+
+  Future<void> register(
+      {required String email,
+      required String password,
+      required String name}) async {
+    _loginService.registerWithEmail(
+      email: email,
+      password: password,
+      name: name,
+    );
+  }
 }

@@ -23,6 +23,21 @@ class LoginRepositoryImpl implements LoginRepository {
   }
 
   @override
+  Future<UserCredential> registerWithEmail(
+      {required String email,
+      required String password,
+      required String name}) async {
+    try {
+      UserCredential user = await _firebaseAuth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      user.user!.updateDisplayName(name);
+      return user;
+    } catch (e) {
+      throw Exception('Erro ao se cadastrar');
+    }
+  }
+
+  @override
   Future<UserCredential> loginWithEmail(
       {required String email, required String password}) async {
     try {
