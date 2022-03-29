@@ -47,9 +47,9 @@ class BuildSignIn extends StatelessWidget {
                           color: Colors.grey[400],
                         ),
                         CustomTextField(
-                          inputType: TextInputType.emailAddress,
+                          inputType: TextInputType.text,
                           hintText: "Password",
-                          icon: Icons.email,
+                          icon: Icons.lock,
                           password: true,
                           controller: passwordController,
                         ),

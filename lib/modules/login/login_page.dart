@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_auth_firebase/application/ui/widgets/build_sign_up.dart';
 import 'package:get/get.dart';
 import '../../application/ui/widgets/build_menu_bar.dart';
 import '../../application/ui/widgets/build_sign_in.dart';
@@ -54,7 +55,7 @@ class LoginPage extends GetView<LoginController> {
                     physics: const NeverScrollableScrollPhysics(),
                     children: [
                       BuildSignIn(signInWithEmail: controller.signInWithEmail, signInWithGoogle: controller.signInWithGoogle),
-                      Container(),
+                      BuildSignUp(registerWithEmail: controller.register),
                     ],
                   ),
                 ),

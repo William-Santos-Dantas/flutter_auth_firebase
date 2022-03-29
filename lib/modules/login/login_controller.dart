@@ -72,10 +72,20 @@ class LoginController extends GetxController with LoaderMixin, MessagesMixin {
       {required String email,
       required String password,
       required String name}) async {
-    _loginService.registerWithEmail(
-      email: email,
-      password: password,
-      name: name,
-    );
+    try {
+      loading(true);
+      await _loginService.registerWithEmail(
+        email: email,
+        password: password,
+        name: name,
+      );
+      loading(false);
+      message(MessageModel.info(
+          title: 'Sucesso', message: 'Cadastro Realizado com Sucesso'));
+    } catch (e) {
+      loading(false);
+      message(MessageModel.error(
+          title: 'Register Error', message: 'Erro ao Realizar Cadastro'));
+    }
   }
 }
