@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:get/get.dart';
+import 'package:validatorless/validatorless.dart';
 
 import 'custom_text_field.dart';
 import 'submit_button.dart';
 
 class BuildSignUp extends StatelessWidget {
   final Function registerWithEmail;
-  const BuildSignUp(
-      {Key? key, required this.registerWithEmail})
+  const BuildSignUp({Key? key, required this.registerWithEmail})
       : super(key: key);
 
   @override
@@ -16,8 +16,11 @@ class BuildSignUp extends StatelessWidget {
     final TextEditingController nameController = TextEditingController();
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
-    final TextEditingController confirmpasswordController = TextEditingController();
+    final TextEditingController confirmpasswordController =
+        TextEditingController();
     final _formKey = GlobalKey<FormState>();
+
+
     return Container(
       padding: const EdgeInsets.only(top: 23.0),
       child: Column(
@@ -42,6 +45,9 @@ class BuildSignUp extends StatelessWidget {
                           hintText: "Name",
                           icon: Icons.person,
                           controller: nameController,
+                          validator: Validatorless.required(
+                            'Nome Obrigatório',
+                          ),
                         ),
                         Divider(
                           height: 1.0,
@@ -52,6 +58,10 @@ class BuildSignUp extends StatelessWidget {
                           hintText: "Email Address",
                           icon: Icons.email,
                           controller: emailController,
+                          validator: Validatorless.multiple([
+                            Validatorless.required('E-mail obrigatório'),
+                            Validatorless.email('E-mail invalido'),
+                          ]),
                         ),
                         Divider(
                           height: 1.0,
@@ -63,6 +73,11 @@ class BuildSignUp extends StatelessWidget {
                           icon: Icons.lock,
                           password: true,
                           controller: passwordController,
+                          validator: Validatorless.multiple([
+                            Validatorless.required('Senha obrigatório'),
+                            Validatorless.min(
+                                6, 'Senha deve conter pelo menos 6 caracteres'),
+                          ]),
                         ),
                         Divider(
                           height: 1.0,
@@ -74,6 +89,15 @@ class BuildSignUp extends StatelessWidget {
                           icon: Icons.lock,
                           password: true,
                           controller: confirmpasswordController,
+                          validator: Validatorless.multiple(
+                            [
+                              Validatorless.required('Senha Obrigatório'),
+                              Validatorless.min(6,
+                                  'Senha deve conter pelo menos 6 caracteres'),
+                              Validatorless.compare(passwordController,
+                                  'Senhas diferente de confirma senha')
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -94,7 +118,6 @@ class BuildSignUp extends StatelessWidget {
             },
             text: 'REGISTER',
           ),
-          
         ],
       ),
     );

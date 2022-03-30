@@ -6,6 +6,7 @@ class CustomTextField extends StatefulWidget {
   final IconData icon;
   final bool password;
   final TextEditingController controller;
+  final FormFieldValidator<String>? validator;
 
   const CustomTextField({
     Key? key,
@@ -14,6 +15,7 @@ class CustomTextField extends StatefulWidget {
     required this.icon,
     this.password = false,
     required this.controller,
+    required this.validator,
   }) : super(key: key);
 
   @override
@@ -24,6 +26,7 @@ class CustomTextField extends StatefulWidget {
         inputType: inputType,
         password: password,
         controller: controller,
+        validator: validator,
       );
 }
 
@@ -33,6 +36,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   final IconData icon;
   final bool password;
   final TextEditingController controller;
+  final FormFieldValidator<String>? validator;
 
   _CustomTextFieldState({
     required this.inputType,
@@ -40,6 +44,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
     required this.icon,
     required this.password,
     required this.controller,
+    required this.validator,
   }) : obscureText = password;
 
   bool obscureText;
@@ -53,10 +58,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
         left: 25.0,
         right: 25.0,
       ),
-      child: TextField(
+      child: TextFormField(
         controller: controller,
         keyboardType: inputType,
         obscureText: obscureText,
+        validator: validator,
         style: const TextStyle(
           fontFamily: "WorkSansSemiBold",
           fontSize: 16.0,

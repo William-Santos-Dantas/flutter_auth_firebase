@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:get/get.dart';
+import 'package:validatorless/validatorless.dart';
 
 import 'custom_text_field.dart';
 import 'submit_button.dart';
@@ -41,6 +42,10 @@ class BuildSignIn extends StatelessWidget {
                           hintText: "Email Address",
                           icon: Icons.email,
                           controller: emailController,
+                          validator: Validatorless.multiple([
+                            Validatorless.required('E-mail obrigatório'),
+                            Validatorless.email('E-mail invalido'),
+                          ]),
                         ),
                         Divider(
                           height: 1.0,
@@ -52,6 +57,11 @@ class BuildSignIn extends StatelessWidget {
                           icon: Icons.lock,
                           password: true,
                           controller: passwordController,
+                          validator: Validatorless.multiple([
+                            Validatorless.required('Senha obrigatório'),
+                            Validatorless.min(
+                                6, 'Senha deve conter pelo menos 6 caracteres'),
+                          ]),
                         ),
                       ],
                     ),
